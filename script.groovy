@@ -14,6 +14,10 @@ def testApp() {
 
 def deployApp() {
   echo "deploying app.."
+  def dockerCmd = 'docker run -p 3000:3000 -d ahmedvii/meme-app:v1.0'
+  sshagent(['EC2']) {
+    sh "ssh -o StrictHostKeyChecking=no ubuntu@16.170.239.130 ${dockerCmd}"
+}
 }
 
 return this
