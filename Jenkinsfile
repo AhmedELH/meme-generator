@@ -3,37 +3,33 @@ pipeline {
   agent any
 
   stages {
-
-    stage("build docker image") {
-      
+    stage("init") {
       steps {
-
-        echo "Building docker image..."
-        withCredentials([usernamePassword(credentialsId: 'Dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]){
-          sh 'docker build -t ahmedvii/meme-app:v1.0 .'
-          sh "echo $PASS | docker login -u $USER --password-stdin"
-          sh 'docker push ahmedvii/meme-app:v1.0'
+        script {
+          gv = load "script.groovy"
         }
-
       }
     }
-
+    stage("build docker") {
+      steps {
+        script {
+          gv.buildDocker()
+        }
+      }
+    }
     stage("test") {
-      
-      steps {
-
-        echo "testing the pipeline..."
-
+      steps{
+        script{
+          gv.testApp()
+        }
       }
     }
-
     stage("deploy") {
-      
-      steps {
-
-        echo "deploying the pipeline..."
-
+      steps{
+        script{
+          gv.deployApp()
+        }
       }
     }
-  }
+  } 
 }
