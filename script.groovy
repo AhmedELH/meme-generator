@@ -9,11 +9,11 @@ def buildDocker() {
 }
 
 def testApp() {
-  echo 'testing app..'
+  echo "testing app.."
 }
 
 def deployApp() {
-  echo 'deploying app..'
+  echo "deploying app.."
 }
 
 return this
